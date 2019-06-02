@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = 'http://repo.maven.apache.org/maven2'
+    }
+}
+
+group = 'ru.cft.focus'
+version = '1.1'
+sourceCompatibility = '1.8'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.12.2'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.2'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.4.2'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'
+}
+
+task Wrapper(type: Wrapper) {
+    gradleVersion = '5.4.1'
+}
+
+task AllTests(type: Test) {
+    useJUnitPlatform()
+}
+
+task CafeTest(type: Test) {
+    useJUnitPlatform() {
+        includeTags 'CafeTest'
+    }
+}
+
+task CoffeeTest(type: Test) {
+    useJUnitPlatform() {
+        includeTags 'CoffeeTest'
+    }
+}
